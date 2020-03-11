@@ -1,4 +1,4 @@
-const stages = ["choose", "battle"];
+const stages = ["choose", "battleConfirm", "battle"];
 
 const PokemonAPI = new Pokedex.Pokedex();
 
@@ -17,16 +17,32 @@ let app = new Vue({
         this.search.toLowerCase()
       );
 
-      if (this.myPokemon.id === undefined) this.myPokemon = pokemon;
-      else this.opposingPokemon = pokemon;
+      if (this.myPokemon.id === undefined)
+        this.myPokemon = { ...pokemon, health: 100 };
+      else this.opposingPokemon = { ...pokemon, health: 100 };
       this.search = "";
 
       if (
         this.myPokemon.id !== undefined &&
         this.opposingPokemon.id !== undefined
       ) {
-        this.stage = "battle";
+        this.stage = "battleConfirm";
       }
+    },
+    startBattle() {
+      this.stage = "battle";
+    },
+    attack1() {
+      this.opposingPokemon.health -= 10;
+    },
+    attack2() {
+      this.opposingPokemon.health -= 20;
+    },
+    attack3() {
+      this.opposingPokemon.health -= 30;
+    },
+    attack4() {
+      this.opposingPokemon.health -= 40;
     }
   },
   computed: {
@@ -53,6 +69,16 @@ let app = new Vue({
         .sort((a, b) => a.slot - b.slot)
         .map(i => i.ability.name)
         .join(", ");
+    },
+    opposingHealthColor() {
+      if (this.opposingPokemon.health < 20) return "w3-red";
+      if (this.opposingPokemon.health < 50) return "w3-yellow";
+      return "w3-green";
+    },
+    myHealthColor() {
+      if (this.myPokemon.health < 20) return "w3-red";
+      if (this.myPokemon.health < 50) return "w3-yellow";
+      return "w3-green";
     }
   }
 });
