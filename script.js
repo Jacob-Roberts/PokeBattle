@@ -30,8 +30,9 @@ let app = new Vue({
       }
     },
     startBattle() {
-      this.stage = "battle";
+      // What do we need to do here to make this work?
     },
+    // Let's make these attacks take into account the opponents weakness
     attack1() {
       this.opposingPokemon.health -= 10;
     },
